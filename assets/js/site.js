@@ -11,7 +11,8 @@
     top.classList.toggle('show', y>800);
     var cur=null;
     secs.forEach(function(s){ if(s.getBoundingClientRect().top<=140) cur=s.id; });
-    links.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href')==='#'+cur); });
+    if(links.length) links.forEach(function(a){
+      a.classList.toggle('active', a.getAttribute('href')==='#'+cur); });
   }
   window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
   top.addEventListener('click', function(){ window.scrollTo({top:0, behavior: rm?'auto':'smooth'}); });
@@ -46,7 +47,7 @@
 
   /* enquiry form -> mail client */
   var f=document.getElementById('enq'), note=document.getElementById('fn');
-  f.addEventListener('submit', function(e){
+  if(f) f.addEventListener('submit', function(e){
     e.preventDefault();
     var n=document.getElementById('nm').value.trim(),
         em=document.getElementById('em').value.trim(),
@@ -59,7 +60,8 @@
     note.style.color='#8FA3BC';
   });
 
-  document.getElementById('yr').textContent=new Date().getFullYear();
+  var yr=document.getElementById('yr');
+  if(yr) yr.textContent=new Date().getFullYear();
 
   /* ---- counters ---------------------------------------------------- */
   var cio = new IntersectionObserver(function(es){
