@@ -1,6 +1,6 @@
 # Southern Cross Strategic Holdings Pte Limited &mdash; corporate website
 
-A twelve-page static site built from the Corporate Strategic Business Plan
+A fourteen-page static site built from the Corporate Strategic Business Plan
 2026&ndash;2031. No build step, no framework, no dependencies: open
 `index.html` and it runs.
 
@@ -32,6 +32,8 @@ domain (for example `www.scsh.com.fj`), then point a CNAME DNS record at
     leadership.html   Leadership &amp; accountability
     governance.html   Governance &amp; assurance
     careers.html      Careers
+    gallery.html      Photos &amp; video clips
+    resources.html    Resources &mdash; policies and SOPs to download
     contact.html      Contact us
     404.html          shown for a bad address
 
@@ -44,7 +46,11 @@ order of the Business Plan.
 
     assets/css/site.css   all styling, including the motion and multi-page layers
     assets/js/site.js     starfield, counters, tabs, menu, reveals
-    assets/img/           put photographs here
+    assets/img/gallery/   gallery photographs (display size)
+    assets/img/gallery/thumb/  gallery thumbnails, loaded by the grid
+    assets/docs/policies/ the 14 Group policies, as PDFs
+    assets/docs/sops/     the 14 standard operating procedures, as PDFs
+    assets/video/         create this folder to add video clips
     robots.txt            search-engine instructions
     .nojekyll             tells GitHub Pages to serve the files as-is
 
@@ -94,3 +100,60 @@ reduce motion.
 
 Current Chrome, Edge, Firefox and Safari, on desktop and mobile. The Pacific
 scope pans sideways on narrow screens so its callouts stay readable.
+
+## The gallery
+
+Sixty photographs, sorted into five categories that can be filtered from the
+page. Each photograph exists twice: a thumbnail in
+`assets/img/gallery/thumb/` that the grid loads, and a larger copy in
+`assets/img/gallery/` that loads only when a visitor opens it. The grid
+therefore costs about 2.3 MB to display rather than 15 MB.
+
+The tiles reshuffle every five seconds. The movement is a FLIP animation:
+positions are measured, the order changes, positions are measured again, and
+each tile is animated from where it was to where it now is. Visitors can
+shuffle on demand or switch the automatic shuffle off, and it pauses by itself
+in a background tab or while a photograph is open.
+
+### Adding or replacing photographs
+
+Photographs are listed in the markup of `gallery.html`, so adding one means
+adding a `<figure class="tile">` block and a matching entry in the
+`galdata` JSON at the foot of the page. Copy an existing pair and change the
+file name, title, caption and category. Give portrait images
+`class="tile tile--tall"` so they take the taller grid slot.
+
+Keep new photographs under about 400 KB. Anything straight off a phone will be
+three to eight times that, which is what the two-size split above is for.
+
+### Adding video clips
+
+No clips were supplied, so that section is in place but empty. Create
+`assets/video/`, put an MP4 in it, then open `gallery.html` and follow the
+commented example inside `#clips-grid` &mdash; delete the placeholder block above
+it and uncomment the `<figure class="clip">` pattern. The player and captions
+are already styled. Use a poster image so the page does not download the video
+until someone presses play.
+
+## Resources
+
+Twenty-eight documents: fourteen Group policies and fourteen standard
+operating procedures, grouped by function, with filter buttons and a search
+box that matches on title or document code.
+
+The list is generated from the markup in `resources.html`. To add a document,
+drop the PDF into `assets/docs/policies/` or `assets/docs/sops/` and copy an
+existing `<a class="doc">` block, changing the file name, title, document code,
+version, page count and file size.
+
+**Before publishing, read this.** Every one of these documents is marked on its
+own cover page as confidential, restricted, or a controlled copy. Publishing
+them on a public website contradicts that marking, and once they are pushed to
+a public repository they remain in its history even if deleted later. If they
+are meant for staff and clients rather than the public, the usual options are:
+
+- keep `resources.html` as a public list of what exists, and remove the PDFs
+  from the repository, supplying them on request;
+- host the PDFs behind a login (SharePoint, Google Drive with restricted
+  sharing, or similar) and point each Download link at that;
+- publish the repository privately and serve the site to a restricted audience.
